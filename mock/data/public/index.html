@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Streamkit Message Feeder</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+  </head>
+  <body>
+    <section class="section is-medium">
+      <div class="box has-background-link-light is-fluid p-6 is-rounded">
+        <form id="submit-form" method="POST" action="/payload/submit">
+          <div class="field">
+            <label class="label" for="name">Name:</label>
+            <div class="control has-icons-left">
+              <span class="icon is-small is-left">
+                <i class="fas fa-user"></i>
+              </span>
+              <input
+                class="input"
+                type="text"
+                name="name"
+                placeholder="Author Name"
+              />
+            </div>
+          </div>
+          <input type="text" name="text" />
+          <div class="field">
+            <label class="label">Source</label>
+            <div class="control has-icons-left">
+              <div class="select">
+                <select name="sourceId">
+                  <option value="13">youtube</option>
+                  <option value="2">twitch</option>
+                  <option value="22">twitter</option>
+                  <option value="25">discord</option>
+                  <option value="26">linkedin</option>
+                  <option value="19">facebook</option>
+                </select>
+              </div>
+              <div class="icon is-small is-left">
+                <i class="fas fa-globe"></i>
+              </div>
+            </div>
+          </div>
+          <input type="submit" />
+        </form>
+      </div>
+    </section>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/script.js"></script>
+  </body>
+</html>

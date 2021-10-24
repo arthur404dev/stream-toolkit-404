@@ -1,11 +1,25 @@
-version: "3"
+version: "3.8"
 
 services:
   api:
+    container_name: api
     build: ./api
     ports:
       - 8080:8080
   web:
+    container_name: web
     build: ./web
     ports:
       - 3000:80
+  data:
+    container_name: data
+    build: ./mock/data
+    ports:
+      - 4200:4200
+  mongo:
+    container_name: mongodb
+    image: mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - ./mock/db:/data/db

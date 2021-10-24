@@ -1,0 +1,21 @@
+{
+  "name": "data",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "start": "node index.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "mongodb": "^4.1.1",
+    "socket.io": "^4.2.0",
+    "uuid": "^8.3.2",
+    "ws": "^8.2.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  }
+}
