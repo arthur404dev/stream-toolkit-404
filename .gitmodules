@@ -1,0 +1,6 @@
+[submodule "api"]
+	path = api
+	url = https://github.com/arthur404dev/stream-toolkit-api
+[submodule "web"]
+	path = web
+	url = https://github.com/arthur404dev/stream-toolkit-web
