@@ -5,17 +5,17 @@ services:
     container_name: api
     build: ./api
     ports:
-      - 8080:8080
+      - ${PROD_API_PORT}:${PROD_API_PORT}
   web:
     container_name: web
     build: ./web
     ports:
-      - 3000:80
+      - ${PROD_WEB_PORT}:80
   data:
     container_name: data
     build: ./mock/data
     ports:
-      - 4200:4200
+      - ${PROD_MOCK_PORT}:4200
   mongo:
     container_name: mongodb
     image: mongo
