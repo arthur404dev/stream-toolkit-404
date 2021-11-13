@@ -1,12 +1,16 @@
-.PHONY=all run-api run-web run-mock start-db run watch update-prod-api update-prod-web
+.PHONY=all install run-api run-web run-mock start-db start-data run watch update-prod-api update-prod-web rebuild kill
 .EXPORT_ALL_VARIABLES:
 
 ifneq (,$(wildcard ./.env))
     include .env
     export
 endif
-# dev
 APP_NAME=stream-toolkit
+ENVIRONMENT_PATH=env
+# submodules
+REPO_API_ENDPOINT=https://github.com/arthur404dev/stream-toolkit-api.git
+REPO_WEB_ENDPOINT=https://github.com/arthur404dev/stream-toolkit-web.git
+# dev
 LOCAL_BASE_ENDPOINT=$(DEV_ENDPOINT_BASE)
 LOCAL_SOCK_ENDPOINT=$(DEV_ENDPOINT_SOCK)
 LOCAL_API_ENV_FILE=$(DEV_ENV_FILE_API)
@@ -33,13 +37,19 @@ all:
 		- off         : make kill\n\
 		- inspection  : make watch"
 
-install:
-	@echo "=> Enabling git submodules"
-	@git submodule init
-	@echo "=> Cloning submodules"
-	@git submodule update
+install: clone-repos create-env
+
+clone-repos:
+	@echo "=> Cloning API"
+	@git clone $(REPO_API_ENDPOINT) api
+	@echo "=> Cloning WEB"
+	@git clone $(REPO_WEB_ENDPOINT) web
+
+create-env:
+	@echo "=> Create environment folder"
+	@mkdir $(ENVIRONMENT_PATH)
 	@echo "=> Creating environment files"
-	@touch $(PROD_ENV_FILE_API) $(PROD_ENV_FILE_WEB) $(DEV_ENV_FILE_API) $(DEV_ENV_FILE_WEB)
+	@cd $(ENVIRONMENT_PATH) && touch $(PROD_ENV_FILE_API) $(PROD_ENV_FILE_WEB) $(DEV_ENV_FILE_API) $(DEV_ENV_FILE_WEB)
 
 run-api:
 	@echo "=> Running API locally using air"
@@ -98,7 +108,7 @@ update-prod-api:
 	ENVIRONMENT=$(PROD_API_ENVIRONMENT)\n\
 	LOG_LEVEL=$(PROD_API_LOG_LEVEL)\n\
 	ACCESS_API_KEY=$(PROD_API_ACCESS_KEY)\n\
-	" | tee $(PROD_ENV_FILE_API) ./api/.env
+	" | tee ./$(ENVIRONMENT_PATH)/$(PROD_ENV_FILE_API) ./api/.env
 
 update-prod-web:
 	@echo "=> Updating environment and outputting to: $(PROD_ENV_FILE_WEB)"
@@ -109,7 +119,7 @@ update-prod-web:
 	REACT_APP_API_SOCKET_URL=$(PROD_SOCKET_API)\n\
 	REACT_APP_RESTREAM_CLIENT_ID=$(PROD_RESTREAM_CLIENT)\n\
 	REACT_APP_API_ACCESS_KEY=$(PROD_API_ACCESS_KEY)\n\
-	" | tee $(PROD_ENV_FILE_WEB) ./web/.env
+	" | tee ./$(ENVIRONMENT_PATH)/$(PROD_ENV_FILE_WEB) ./web/.env
 
 run: update-prod-api update-prod-web
 	@echo "=> Running $(APP_NAME) on detached mode"
